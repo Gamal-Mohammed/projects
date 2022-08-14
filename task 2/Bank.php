@@ -23,7 +23,7 @@
                        <input class="form-control" name="loan" placeholder="loan">
                    </div>
                    <div class="form-group">
-                       <input class="form-control" name="years" placeholder="number of years">
+                       <input class="form-control" name="years" placeholder="number of month as years">
                    </div>
                    
                    
