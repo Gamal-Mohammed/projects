@@ -35,7 +35,7 @@
                        </form>
                        <?php
                        if ($_GET) {
-                        if ($_GET["years"]<=3) {
+                        if ($_GET["years"]<=36) {
                          $res= $_GET["loan"]*0.10*$_GET["years"]/30;
                          echo $_GET["name"]." paid in month ".$res;
                         }else{
