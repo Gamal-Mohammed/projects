@@ -2,13 +2,40 @@
 
 use App\Services\Media;
 use App\Database\Models\User;
-
+use App\Http\Requests\Validation;
 $title = "My Account";
 include "layouts/header.php";
 include "App/Http/Middlewares/Auth.php";
 include "layouts/navbar.php";
 include "layouts/breadcrumb.php";
 if($_SERVER['REQUEST_METHOD'] == "POST"){
+    $user2 = new User;
+    $user2->updateFirstName();
+
+    $validation = new Validation;
+    $validation->setInput('password')->setValue($_POST['password'])->required()
+    ->regex('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/','mini 8 chars max 32 ,mini one number , one character , one uppercase letter , one lowercase letter , one specidal char')
+    ->confirmed($_POST['password_confirmation']);
+    $validation->setInput('password_confirmation')->setValue($_POST['password_confirmation'])
+    ->required();
+    if(empty($validation->getErrors())){
+        
+        $user3 = new User;
+        $result = $user3->setFirst_name($_SESSION['user'])
+        ->setPassword($_POST['password']);
+        if($user3->updatePassowrd()){
+            unset($_SESSION['user']);
+
+            if(isset($_COOKIE['user'])){
+                setcookie('user','',time() -1,'/');
+            }
+            
+            header('location:login.php');
+        }else{
+            $error = "<div class='alert alert-danger text-center'> Something Went Wrong </div>";
+        }
+    }
+}
     if(isset($_POST['upload-image'])){
        if($_FILES['image']['error'] == 0){
             $imageService = new Media;
@@ -30,7 +57,10 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
             }
        }
     }
-}
+
+
+
+
 ?>
 <!-- my account start -->
 <div class="checkout-area pb-80 pt-100">
@@ -87,7 +117,9 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 
                                                 </div>
                                             </div>
+                                            
                                             <div class="col-lg-6 col-md-6">
+                                            <form method="post">
                                                 <div class="billing-info">
                                                     <label>First Name</label>
                                                     <input type="text" name="first_name"
@@ -101,7 +133,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
                                                         value="<?= $_SESSION['user']->last_name ?>">
                                                 </div>
                                             </div>
-
+                                        
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="billing-info">
                                                     <label for="gender">Gender</label>
@@ -122,6 +154,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
                                                 <button type="submit">Continue</button>
                                             </div>
                                         </div>
+                                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -139,16 +172,20 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
                                             <h5>Your Password</h5>
                                         </div>
                                         <div class="row">
+                                        
                                             <div class="col-lg-12 col-md-12">
+                                            <form method="post">
                                                 <div class="billing-info">
                                                     <label>Password</label>
-                                                    <input type="password">
+                                                    <input type="password" name="password">
+                                                    <?= isset($validation) ? $validation->getMessage('password') : '' ?>
                                                 </div>
                                             </div>
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="billing-info">
                                                     <label>Password Confirm</label>
-                                                    <input type="password">
+                                                    <input type="password" name="password_confirmation">
+                                                    <?= isset($validation) ? $validation->getMessage('password_confirmation') : '' ?>
                                                 </div>
                                             </div>
                                         </div>
@@ -158,6 +195,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
                                             </div>
                                             <div class="billing-btn">
                                                 <button type="submit">Continue</button>
+                                                        </form>
                                             </div>
                                         </div>
                                     </div>

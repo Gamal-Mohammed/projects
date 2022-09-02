@@ -17,7 +17,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     $validation->setInput('password_confirmation')->setValue($_POST['password_confirmation'])
     ->required();
     if(empty($validation->getErrors())){
-        // no validation error
+        
         $user = new User;
         $result = $user->setEmail($_SESSION['email'])
         ->setPassword($_POST['password']);

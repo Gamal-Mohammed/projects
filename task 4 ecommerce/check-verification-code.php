@@ -29,7 +29,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     // validation
     $validation = new Validation;
     $validation->setInput('verification_code')->setValue($_POST['verification_code'])
-    ->required()->digits(5)->exists('users','verification_code');
+    ->required()->digits(5)->exists('users','verfaction_code');
     if(empty($validation->getErrors())){
         // no validation error
         $user = new User;

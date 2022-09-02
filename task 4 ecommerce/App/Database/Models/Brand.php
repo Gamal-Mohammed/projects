@@ -13,7 +13,7 @@ class Brand extends Model implements Crud {
 
     }
     public function read(){
-        $query = "SELECT id,name_en,image FROM brands WHERE status = ". self::ACTIVE;
+        $query = "SELECT id,name_en,image FROM 	brands WHERE status = ". self::ACTIVE;
         return $this->conn->query($query);
     }
     public function update(){

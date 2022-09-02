@@ -45,7 +45,7 @@ class Validation {
     public function setValue($value)
     {
         $this->value = $value;
-        $this->oldValues[$this->input] = $value; // ['first_name' => 'galal']  
+        $this->oldValues[$this->input] = $value;
         return $this;
     }
 

@@ -6,7 +6,7 @@ use App\Database\Models\Contract\Model;
 
 class Product extends Model implements Crud {
     private $id,$name_en,$name_ar,$price,$quantity,$status,$image
-    ,$code,$details_ar,$detials_en,$brand_id,$subcategory_id,$category_id,$created_at,$updated_at;
+    ,$code,$details_ar,$detials_en,$brand_id,$subcategory_id,$category_id,$created_at,$updated_at,$prodact_id;
     private const ACTIVE = 1;
     private const NOT_ACTIVE = 0;
     public function create()
@@ -15,7 +15,7 @@ class Product extends Model implements Crud {
     }
     public function read()
     {
-        $query = "SELECT id,name_en,price,image,details_en FROM products
+        $query = "SELECT id,name_en,price,image,details_en FROM prodacts
         WHERE status = " . self::ACTIVE;
         return $this->conn->query($query);
     }
@@ -310,7 +310,7 @@ class Product extends Model implements Crud {
 
     public function getProduct()
     {
-        $query =  "SELECT * FROM product_details 
+        $query =  "SELECT * FROM prodacts 
         WHERE status = " . self::ACTIVE . " AND id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('i',$this->id);
@@ -318,10 +318,18 @@ class Product extends Model implements Crud {
         return $stmt->get_result();
     }
     
+    public function getProductbyorder()
+    {
+        $query = "SELECT id FROM orders   
+        WHERE status = " . self::ACTIVE ;
 
+      $query = "SELECT image,id FROM prodacts   
+            WHERE status = " . self::ACTIVE ;
+        return $this->conn->query($query);
+    }
     public function getProductsByBrand()
     {
-        $query =  "SELECT id,name_en,price,image,details_en FROM product_details 
+        $query =  "SELECT id,name_en,price,image,details_en	 FROM prodacts 
         WHERE status = " . self::ACTIVE . " AND brand_id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('i',$this->brand_id);
@@ -331,8 +339,8 @@ class Product extends Model implements Crud {
 
     public function getProductsByCategory()
     {
-        $query =  "SELECT id,name_en,price,image,details_en FROM product_details 
-        WHERE status = " . self::ACTIVE . " AND category_id = ?";
+        $query =  "SELECT id,name_en,price,image,details_en FROM prodacts 
+        WHERE status = " . self::ACTIVE . " AND subcat_id	 = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('i',$this->category_id);
         $stmt->execute();
@@ -342,8 +350,8 @@ class Product extends Model implements Crud {
 
     public function getProductsBySubcategory()
     {
-        $query =  "SELECT id,name_en,price,image,details_en FROM product_details 
-        WHERE status = " . self::ACTIVE . " AND subcategory_id = ?";
+        $query =  "SELECT id,name_en,price,image,details_en	 FROM prodacts 
+        WHERE status = " . self::ACTIVE . " AND subcat_id	 = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('i',$this->subcategory_id);
         $stmt->execute();

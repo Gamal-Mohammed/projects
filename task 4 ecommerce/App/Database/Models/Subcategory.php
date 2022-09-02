@@ -187,13 +187,13 @@ class Subcategory extends Model implements Crud {
 
     public function getSubsByCat()
     {
-        $query = "SELECT id,name_en FROM subcategories WHERE status ="
-         . self::ACTIVE . " AND category_id = {$this->category_id}";
+        $query = "SELECT id,name_en FROM subcatogres WHERE status ="
+         . self::ACTIVE . " AND catogery_id  = {$this->category_id}";
         return $this->conn->query($query);
     }
     public function getSubcategory()
     {
-        $query = "SELECT id FROM subcategories WHERE id = ? AND status = ". self::ACTIVE;
+        $query = "SELECT id FROM 	subcatogres WHERE id = ? AND status = ". self::ACTIVE;
         $stmt =  $this->conn->prepare($query);
         $stmt->bind_param('i',$this->id);
         $stmt->execute();

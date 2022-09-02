@@ -13,7 +13,7 @@ class Category extends Model implements Crud {
 
     }
     public function read(){
-        $query = "SELECT id,name_en FROM categories WHERE status = ". self::ACTIVE;
+        $query = "SELECT id,name_en FROM catgories WHERE status = ". self::ACTIVE;
         return $this->conn->query($query);
     }
     public function update(){
@@ -165,7 +165,7 @@ class Category extends Model implements Crud {
 
     public function getCategory()
     {
-        $query = "SELECT id FROM categories WHERE id = ? AND status = ". self::ACTIVE;
+        $query = "SELECT id FROM catgories WHERE id = ? AND status = ". self::ACTIVE;
         $stmt =  $this->conn->prepare($query);
         $stmt->bind_param('i',$this->id);
         $stmt->execute();

@@ -12,7 +12,7 @@ class User extends Model implements Crud {
     public function create()
     {
         $query = "INSERT INTO users (first_name,last_name,email,phone,password,gender,
-        verification_code) VALUES (?, ?, ? , ? , ? , ? , ?)";
+        verfaction_code) VALUES (?, ?, ? , ? , ? , ? , ?)";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("ssssssi",$this->first_name,$this->last_name,$this->email,
             $this->phone,$this->password,$this->gender,$this->verification_code);
@@ -24,7 +24,7 @@ class User extends Model implements Crud {
     }
     public function update()
     {
-        # code...
+        
     }
     public function delete()
     {
@@ -278,11 +278,15 @@ class User extends Model implements Crud {
 
         return $this;
     }
-
+    public function setF_name($First_name)
+    {
+    $this->first_name=$First_name;
+    return $this;
+    }
 
     public function checkCode()
     {
-        $query = "SELECT * FROM users WHERE email = ? AND verification_code = ?";
+        $query = "SELECT * FROM users WHERE email = ? AND verfaction_code = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('si',$this->email,$this->verification_code);
         $stmt->execute();
@@ -291,7 +295,7 @@ class User extends Model implements Crud {
 
     public function makeUserVerified()
     {
-        $query = "UPDATE users SET email_verified_at = ? WHERE email = ?";
+        $query = "UPDATE users SET email_verfied_at = ? WHERE email = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('ss',$this->email_verified_at,$this->email);
         return $stmt->execute();
@@ -299,9 +303,9 @@ class User extends Model implements Crud {
 
     public function updatePassowrd()
     {
-        $query = "UPDATE users SET password = ? WHERE email = ?";
+        $query = "UPDATE users SET password = ? WHERE first_name  = ?";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param('ss',$this->password,$this->email);
+        $stmt->bind_param('ss',$this->password,$this->first_name);
         return $stmt->execute();
     }
 
@@ -313,12 +317,18 @@ class User extends Model implements Crud {
         return $stmt->execute();
     }
     
-
+    public function updateFirstName()
+    {
+        $query = "UPDATE users SET first_name = ?  WHERE email = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('ss',$this->first_name,$this->id);
+        return $stmt->execute();
+    }
     
 
     public function updateCode()
     {
-        $query = "UPDATE users SET verification_code = ? WHERE email = ?";
+        $query = "UPDATE users SET verfaction_code = ? WHERE email = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('ss',$this->verification_code,$this->email);
         return $stmt->execute();

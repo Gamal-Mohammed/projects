@@ -6,8 +6,8 @@ class Connection {
     private string $db_server = 'localhost';
     private string $db_username = 'root';
     private string $db_password = '';
-    private string $db_name = 'nti_ecommerce';
-    private int $db_port = 3307;
+    private string $db_name = 'task';
+    private int $db_port = 3306;
     public \mysqli $conn;
 
     public function __construct() {

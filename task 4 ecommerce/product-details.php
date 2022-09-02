@@ -45,35 +45,24 @@ if($_GET){
                     <h4><?= $product->name_en ?></h4>
                     <div class="rating-review">
                         <div class="pro-dec-rating">
-                            <?php for($i=1;$i<= $product->reviews_avg;$i++){ ?>
+                           
                             <i class="ion-android-star-outline theme-star"></i>
-                            <?php } ?>
-                            <?php for($i=1;$i<= 5 - $product->reviews_avg;$i++){ ?>
+                           
+                            
                             <i class="ion-android-star-outline"></i>
-                            <?php } ?>
+                        
                         </div>
                         <div class="pro-dec-review">
                             <ul>
-                                <li><?=  $product ->reviews_count ?> Reviews </li>
+                                <li>Reviews </li>
                                 <li> Add Your Reviews</li>
                             </ul>
                         </div>
                     </div>
                     <span><?= $product->price ?> EGP</span>
                     <div class="in-stock">
-                        <?php 
-                                if($product->quantity == 0){
-                                    $message = "Outof Stock";
-                                    $color = "danger";
-                                }elseif($product->quantity >= 1 && $product->quantity <= 5){
-                                    $message = "Instock ({$product->quantity})";
-                                    $color = 'warning';
-                                }else{
-                                    $message = "Instock";
-                                    $color = 'success';
-                                }
-                            ?>
-                        <p>Available: <span class="text-<?= $color ?>"><?= $message ?></span></p>
+                       
+                        <p>Available: <span class="text-"></span></p>
                     </div>
                     <p><?= $product->details_en ?> </p>
 
@@ -93,14 +82,9 @@ if($_GET){
                     </div>
                     <div class="pro-dec-categories">
                         <ul>
-                            <li><a
-                                    href="shop.php?category=<?= $product->category_id ?>"><?= $product->category_name_en ?>,</a>
-                            </li>
-                            <li><a
-                                    href="shop.php?subcategory=<?= $product->subcategory_id ?>"><?= $product->subcategory_name_en ?>,</a>
-                            </li>
-                            <li><a href="shop.php?brand=<?= $product->brand_id ?>"><?= $product->brand_name_en ?></a>
-                            </li>
+                            <li>
+                                        
+                           
                         </ul>
                     </div>
 
